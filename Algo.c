@@ -90,8 +90,7 @@ void move_avoid_rock(){
 
                 /*to check if its a cliff, turn 90 deg, move forwards */
 
-                //if after 3 sets of movement, computer software detects black tape is straight or orthogonal --> cliff, else -->crater
-                //
+               
                 send("cliff", c, 3, coordinates(currpos, ) );
 
             } 
