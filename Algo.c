@@ -74,6 +74,20 @@ void move_avoid_rock(){
     //turn 90 deg clock wise
 }
 
+pos update_coordinates(int orientation, int dy, int dx, pos currpos){
+    switch(orientation){
+        case 0: 
+            currpos.y = currpos.y + dy;
+        case 90: 
+            currpos.x= currpos.x + dx;
+        case 180: currpos.y = currpos.y- dy;
+        case 270:
+            currpos.x= currpos.x + dx;
+        default:
+
+    }
+    return currpos;
+}
 
 
  //recursive function explore
