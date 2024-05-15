@@ -56,10 +56,14 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
  } // color sensed by color sensor
 
 pos calculate_pos(){}
-void move_normal(){}
-void move_around_object(int angle_wrt_origin){
+void move_forwards(){}
+/*void move_around_object(int angle_wrt_origin){
     //should ideally end up with same orientation as before
-} 
+} */
+void move_avoid_tape(){
+   //turn clockwise in small pulses of 30 deg, until white table, move forwards until c==black again an repeat until 
+}
+
 void move_avoid_rock(){
     
     //turn on the spot clockwise in small pulses until IR sensor 
@@ -67,7 +71,7 @@ void move_avoid_rock(){
         
     }
 
-    //turn 
+    //turn 90 deg clock wise
 }
 
 
