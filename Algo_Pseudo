@@ -1,0 +1,13 @@
+What happens in each case?
+
+Block detected
+-> Size Determined (Infra sensor)
+-> Move closer to determine color
+-> Communicate with the server - which areas around are unmapped?
+    -> In the case that right or left is undiscovered, turn accordingly, and proceed as usual (explore function)
+    -> else 
+          -> Must go around
+          -> e.g. turn right move certain dist forward depending on size of block/grid (applies to next 2 moves as well to make sure robot half-circumnavigates the block
+          -> turn left
+          -> turn left 
+          -> turn left one more time (Check if the block is still there, so it has successfully moved post the block
