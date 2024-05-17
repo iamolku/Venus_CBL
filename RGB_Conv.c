@@ -1,5 +1,5 @@
 //RGB Value conversion - differentiating different colors in different lighting situations
-//Best approach is to do this with color ratios? set a ratio for each color and essentially 
+//Best approach is to do this with color ratios? set a ratio for each color and essentially differentiate the different colors accordingly
 
 //EXAMPLE CODE BEGIN
 
