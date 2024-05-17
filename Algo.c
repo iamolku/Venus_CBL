@@ -72,7 +72,7 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
 
 pos to_the_left(pos currpos){}
 pos to_the_right(pos currpos){}
-void space_explored(pos position){}
+void space_unexplored(pos position){} // returns whether space to the tright or the left of the robot is un
 void move_forwards(){}
 /*void move_around_object(int angle_wrt_origin){
     //should ideally end up with same orientation as before
