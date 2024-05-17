@@ -125,17 +125,13 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
         if(delta_topd_i==0){ //if cliff, crater, nothing or potentially mountain
             if (c== 'L'){ // if cliff or crater
 
-                //how to tell apart cliff from crater
-
-                /*to check if its a cliff, turn 90 deg, move forwards */
-               
-               
                 send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos );
 
             } 
             else if(get_d_ultra<2){  //mountain
-                send("mountain", c, 30, upadte_coordinates( orientation,  dy,  dx,  currpos) );
+                send("mountain", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
                 move_avoid_rock();
+               
             } 
             else{ //nothing
                 move_forwards();
@@ -143,11 +139,11 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
         }
         else if(delta_topd_i == 3){
             
-            send("Rock", c, 3, coordinates() );
+            send("Rock", c, 3, update_coordinates( orientation,  dy,  dx,  currpos)  );
             move_around_object();
         }
         else if(delta_topd_i==6){
-           send("Rock", c, 6, coordinates() );
+           send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  );
            move_around_object();
         }
         
