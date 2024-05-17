@@ -18,6 +18,8 @@ typedef struct{
     //if prev_d_inf = +-0.01m curr_topd_inf -> return 0;
     if(prev_d_inf - curr_topd_inf < 1 || prev_d_inf - curr_topd_inf > -1   ){
        
+    }
+       
 
  }
 
