@@ -17,6 +17,9 @@ typedef struct{
  int delta_topd_inf(int prev_d_inf, int curr_topd_inf){ //returns value in CM
     //if prev_d_inf = +-0.01m curr_topd_inf -> return 0;
     if(prev_d_inf - curr_topd_inf < 1 || prev_d_inf - curr_topd_inf > -1   ){
+       return 0;
+    }
+    else if(prev_d_inf - curr_topd_inf < 1 || prev_d_inf - curr_topd_inf > -1 ){
        
     }
        
@@ -59,7 +62,7 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
     
  } // color sensed by color sensor
 
-pos calculate_pos(){}
+
 void move_forwards(){}
 /*void move_around_object(int angle_wrt_origin){
     //should ideally end up with same orientation as before
@@ -143,7 +146,7 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
 
     }
     else{
-        return explore
+        return explore()
     }
 
     
