@@ -6,16 +6,18 @@ typedef struct{
 
  //functions
 
- int get_topd_inf(){ //distance sensed by infrared sensor
+ int get_topd_inf(){ //distance sensed by infrared sensor in mm
     int d;
     uint_8 dist = uart_recv(UART1); //to change
-    d= (int)dist;
+    d= (int)dist * 10;
     return d;
+    
  } 
 
  int delta_topd_inf(int prev_d_inf, int curr_topd_inf){ //returns value in CM
     //if prev_d_inf = +-0.01m curr_topd_inf -> return 0;
-    if(prev_d)
+    if(prev_d_inf - curr_topd_inf < 1 || prev_d_inf - curr_topd_inf > -1   ){
+       
 
  }
 
@@ -60,8 +62,14 @@ void move_forwards(){}
 /*void move_around_object(int angle_wrt_origin){
     //should ideally end up with same orientation as before
 } */
+
+void turn_clkwise_90(){
+   
+}
 void move_avoid_tape(){
-   //turn clockwise in small pulses of 30 deg, until white table, move forwards until c==black again an repeat until 
+   //turn clockwise by 90deg, until white table, move forwards until c==black again an repeat until 
+   turn_clkwise_90()
+   
 }
 
 void move_avoid_rock(){
@@ -98,7 +106,7 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
         double curr_topd_i = get_topd_inf();
 
         int delta_topd_i = delta_topd_inf(prev_d_i, curr_topd_i); //calc delta distance infrared
-
+        
 
 
         if(delta_topd_i==0){ //if cliff, crater, nothing or potentially mountain
