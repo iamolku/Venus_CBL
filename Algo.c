@@ -19,9 +19,10 @@ typedef struct{
     if(prev_d_inf - curr_topd_inf < 1 || prev_d_inf - curr_topd_inf > -1   ){
        return 0;
     }
-    else if(prev_d_inf - curr_topd_inf < 1 || prev_d_inf - curr_topd_inf > -1 ){
-       
+    else if((prev_d_inf - curr_topd_inf) < 4 ){
+       return 3;
     }
+    else if((prev_d_inf - curr_topd_inf) < 6)
        
 
  }
