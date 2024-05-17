@@ -22,12 +22,19 @@ typedef struct{
     else if((prev_d_inf - curr_topd_inf) < 4 ){
        return 3;
     }
-    else if((prev_d_inf - curr_topd_inf) < 6)
+    else if((prev_d_inf - curr_topd_inf) < 6){
+       return 6;
+    }
        
-
  }
 
- int get_d_ultra(){} //distance sensed by ultrasound sensor
+ int get_d_ultra(){
+    int d;
+    uint_8 dist = uart_recv(UART1); //to change
+    d= (int)dist * 10;
+    return d;
+    
+ } //distance sensed by ultrasound sensor
 
 char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
 
@@ -121,13 +128,13 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
                 //how to tell apart cliff from crater
 
                 /*to check if its a cliff, turn 90 deg, move forwards */
-
                
-                send("cliff", c, 3, coordinates(currpos, ) );
+               
+                send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos );
 
             } 
             else if(get_d_ultra<2){  //mountain
-                send("mountain", c, 30, coordinates() );
+                send("mountain", c, 30, upadte_coordinates( orientation,  dy,  dx,  currpos) );
                 move_avoid_rock();
             } 
             else{ //nothing
