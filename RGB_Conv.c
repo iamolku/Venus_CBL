@@ -1,5 +1,6 @@
 //RGB Value conversion - differentiating different colors in different lighting situations
 //Best approach is to do this with color ratios? set a ratio for each color and essentially differentiate the different colors accordingly
+//The following code just determines color based on the predominance of a specific color. However, in the final solution, we will give the algo specific ratios/quotas to which the readings will be compared to.
 
 //EXAMPLE CODE BEGIN
 
