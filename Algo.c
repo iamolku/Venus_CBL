@@ -79,12 +79,16 @@ void move_forwards(){}
 void turn_clkwise_90(){
    
 }
-void move_avoid_tape(){
-   //turn clockwise by 90deg, until white table, move forwards until c==black again an repeat until 
-   turn_clkwise_90()
-   
-}
 
+void move_avoid_cliff(){
+    
+    //turn on the spot clockwise in small pulses until IR sensor 
+    while(get_topd_IR() < 25  && get_bottomd_IR()<8){
+        
+    }
+
+    //turn 90 deg clock wise
+}
 void move_avoid_rock(){
     
     //turn on the spot clockwise in small pulses until IR sensor 
@@ -94,6 +98,11 @@ void move_avoid_rock(){
 
     //turn 90 deg clock wise
 }
+void move_avoid_mountain(){
+    
+  
+}
+
 
 pos update_coordinates(int orientation, int dy, int dx, pos currpos){
     switch(orientation){
@@ -126,25 +135,36 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
             if (c== 'L'){ // if cliff or crater
 
                 send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos );
+             
+               move_avoid_cliff();
+               currpos = update_coordinates( orientation,  dy,  dx,  currpos );
 
             } 
             else if(get_d_ultra<2){  //mountain
                 send("mountain", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
-                move_avoid_rock();
+                move_avoid_mountain();
+               currpos = update_coordinates( orientation,  dy,  dx,  currpos );
+
                
             } 
             else{ //nothing
                 move_forwards();
+               currpos = update_coordinates( orientation,  dy,  dx,  currpos );
+
             }
         }
         else if(delta_topd_i == 3){
             
             send("Rock", c, 3, update_coordinates( orientation,  dy,  dx,  currpos)  );
-            move_around_object();
+            move_around_rock();
+           currpos = update_coordinates( orientation,  dy,  dx,  currpos );
+
         }
         else if(delta_topd_i==6){
            send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  );
-           move_around_object();
+           move_around_rock();
+           currpos = update_coordinates( orientation,  dy,  dx,  currpos );
+
         }
         
 
