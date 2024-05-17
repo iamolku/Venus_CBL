@@ -1,4 +1,7 @@
 What happens in each case?
+Basic Movement
+->Explore function
+
 
 Block detected
 -> Size Determined (Infra sensor)
@@ -11,3 +14,5 @@ Block detected
           -> turn left
           -> turn left 
           -> turn left one more time (Check if the block is still there, so it has successfully moved post the block
+          -> turn 180deg and keep exploring
+
