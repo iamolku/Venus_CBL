@@ -91,7 +91,7 @@ void move_avoid_cliff(){
 }
 void move_avoid_rock(){
     
-    //turn on the spot clockwise in small pulses until IR sensor 
+   
     while(get_topd_IR() < 25  && get_bottomd_IR()<8){
         
     }
