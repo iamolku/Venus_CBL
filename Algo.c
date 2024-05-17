@@ -70,7 +70,9 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
     
  } // color sensed by color sensor
 
-
+pos to_the_left(pos currpos){}
+pos to_the_right(pos currpos){}
+void space_explored(pos position){}
 void move_forwards(){}
 /*void move_around_object(int angle_wrt_origin){
     //should ideally end up with same orientation as before
