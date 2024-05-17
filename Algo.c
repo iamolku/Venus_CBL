@@ -1,3 +1,11 @@
+#define CLIFF '#'
+#define UNVISITED '.'
+#define VISITED '+'
+#define ROCK 'R'
+#define MOUNTAIN 'M'
+#define VISITED '+'
+
+
 typedef struct
 {
     char grid[60][60];
@@ -11,6 +19,34 @@ typedef struct{
 
  //functions
 
+//matrix related functions
+matrix_t setToCliff(pos currpos, matrix_t matrix){
+
+    matrix.grid[currpos.x][currpos.y] = '#';
+    //(" %c", matrix.grid[currpos.x][currpos.y]);
+    return matrix;
+}
+
+matrix_t setToVisited(pos currpos, matrix_t matrix){
+     matrix.grid[currpos.x][currpos.y] = '+';
+    //(" %c", matrix.grid[currpos.x][currpos.y]);
+    return matrix;
+}
+char left(pos currpos,  matrix_t matrix ){
+           return matrix.grid[currpos.x -1][currpos.y];
+}
+char right(pos currpos,  matrix_t matrix ){
+           return matrix.grid[currpos.x +1][currpos.y];
+}
+char up(pos currpos,  matrix_t matrix){
+    return matrix.grid[currpos.x][currpos.y -1];
+}
+char behind(pos currpos,  matrix_t matrix){
+    return matrix.grid[currpos.x][currpos.y +1];
+}
+
+
+//sensor related functions
  int get_topd_inf(){ //distance sensed by infrared sensor in mm
     int d;
     uint_8 dist = uart_recv(UART1); //to change
@@ -189,7 +225,16 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
 
 
 int main(void){
+    //initialise matrix
+     matrix_t matrix;
 
+    for(int i=0; i<60; i++){
+        for(int j=0; j<60; j++){
+            
+            matrix.grid[i][j]= '.';
+        }
+        
+    }
     pos currpos;
     currpos.x =0;
     currpos.y= 0;
