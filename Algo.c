@@ -1,4 +1,9 @@
-   
+typedef struct
+{
+    char grid[60][60];
+    
+} matrix_t;
+
 typedef struct{
     int x;
     int y;
