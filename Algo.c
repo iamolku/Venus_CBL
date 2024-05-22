@@ -33,16 +33,39 @@ matrix_t setToVisited(pos currpos, matrix_t matrix){
     return matrix;
 }
 char left(pos currpos,  matrix_t matrix ){
-           return matrix.grid[currpos.x -1][currpos.y];
+    if(matrix.grid[currpos.x -1][currpos.y] != NULL){
+        return matrix.grid[currpos.x -1][currpos.y];
+    }
+    else{
+        return 'N';
+    }
+           
 }
 char right(pos currpos,  matrix_t matrix ){
-           return matrix.grid[currpos.x +1][currpos.y];
+    if(matrix.grid[currpos.x +1][currpos.y]!= NULL){
+        return matrix.grid[currpos.x +1][currpos.y];
+    } else{
+        return 'N';
+    }
 }
+
 char up(pos currpos,  matrix_t matrix){
-    return matrix.grid[currpos.x][currpos.y -1];
+    if(matrix.grid[currpos.x][currpos.y -1]!=NULL){
+         return matrix.grid[currpos.x][currpos.y -1];
+    }
+    else{
+        return 'N';
+    }
+   
 }
 char behind(pos currpos,  matrix_t matrix){
-    return matrix.grid[currpos.x][currpos.y +1];
+    if(matrix.grid[currpos.x][currpos.y +1] !=NULL){
+        return matrix.grid[currpos.x][currpos.y +1];
+    }
+    else{
+        return 'N';
+    }
+    
 }
 
 
@@ -111,8 +134,13 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
     
  } // color sensed by color sensor
 
-pos to_the_left(pos currpos){}
-pos to_the_right(pos currpos){}
+boolean pos_to_the_left_explored(pos currpos){
+    
+    
+
+    
+}
+boolean pos_to_the_right_explored(pos currpos){}
 void space_unexplored(pos position){} // returns whether space to the tright or the left of the robot is un
 void move_forwards(){}
 /*void move_around_object(int angle_wrt_origin){
@@ -138,6 +166,9 @@ int turn_clkwise_90(int orientation){
     return orientation;  
 }
 int turn_anticlkwise_90(){
+    //insert code to move
+
+    //update and return orientation
     switch (orientation){
         case 0: 
                 orientation = 270;
