@@ -7,9 +7,10 @@ Going around
     -> e.g. turn right move distance x forward depending on size of block/grid (applies to next 2 moves as well to make sure robot half-circumnavigates the block
     -> turn left & move forward distance 2x
     -> turn left & move forward x
-    -> turn left one more time (Check if the block is still there, so it has successfully moved post the block
-          -> turn 180deg and keep exploring
+    -> turn left one more time (Check if the block is still there, so it has successfully moved post the block)
+    -> turn 180deg and keep exploring
 
+*keep in mind, after every move update orientation*
 
 Block detected
 -> Size Determined (Infra sensor)
