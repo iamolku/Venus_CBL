@@ -1,5 +1,5 @@
 #define CLIFF '#'
-#define UNVISITED NULL //REPLACE WITH NULL
+#define UNVISITED NULL 
 #define VISITED '+'
 #define ROCK 'R'
 #define MOUNTAIN 'M'
