@@ -120,24 +120,22 @@ void move_forwards(){}
 } */
 
 void turn_clkwise_90(){
+    //insert code to 
    
+}
+update_orientation(){
+    
 }
 
 void move_avoid_cliff(){
-    
-    //turn on the spot clockwise in small pulses until IR sensor 
-    while(get_topd_IR() < 25  && get_bottomd_IR()<8){
-        
-    }
+   
 
     //turn 90 deg clock wise
 }
 void move_avoid_rock(){
     
    
-    while(get_topd_IR() < 25  && get_bottomd_IR()<8){
-        
-    }
+   
 
     //turn 90 deg clock wise
 }
@@ -183,7 +181,7 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
                currpos = update_coordinates( orientation,  dy,  dx,  currpos );
 
             } 
-            else if(get_d_ultra<2){  //mountain
+            else if(get_d_ultra<6){  //mountain
                 send("mountain", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
                 move_avoid_mountain();
                currpos = update_coordinates( orientation,  dy,  dx,  currpos );
