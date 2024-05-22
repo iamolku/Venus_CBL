@@ -82,8 +82,16 @@ void freeHashTable() {
     }
 }
 
+// VALUE CHART
+// EMPTY (INITIALIZED AS SO) - 0
+// BORDER - 1
+// SBLOCK - 2
+// BBLOCK - 3
+// CLIFF - 4
+// MOUNTAIN - 5
+
 int main() {
-    // Example usage
+    // Example usage at coords 
     updateMap(10, 10, 5);
     printf("Value at (10, 10): %d\n", getValue(10, 10));
 
