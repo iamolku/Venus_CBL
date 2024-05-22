@@ -32,6 +32,9 @@ matrix_t setToVisited(pos currpos, matrix_t matrix){
     //(" %c", matrix.grid[currpos.x][currpos.y]);
     return matrix;
 }
+
+
+//detecting around the currpos
 char left(pos currpos,  matrix_t matrix ){
     if(matrix.grid[currpos.x -1][currpos.y] != NULL){
         return matrix.grid[currpos.x -1][currpos.y];
