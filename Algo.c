@@ -144,8 +144,11 @@ boolean pos_to_the_left_explored(pos currpos){
     
 }
 boolean pos_to_the_right_explored(pos currpos){}
-void space_unexplored(pos position){} // returns whether space to the tright or the left of the robot is un
-void move_forwards(){}
+//void space_unexplored(pos position){} // returns whether space to the tright or the left of the robot is un
+void move_forwards(){
+    //move forwards 3 cm
+    
+}
 /*void move_around_object(int angle_wrt_origin){
     //should ideally end up with same orientation as before
 } */
@@ -190,7 +193,7 @@ int turn_anticlkwise_90(){
 
 void move_avoid_cliff(){
    //turn 90 deg NOT on spot
-
+    
     //turn 90 deg clock wise
 }
 void move_avoid_rock(){
@@ -202,6 +205,7 @@ void move_avoid_rock(){
 }
 void move_avoid_mountain(){
     //turn on spot 90 deg
+    
   
 }
 
@@ -233,9 +237,9 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
         
         if(delta_topd_i==0){ //if cliff, crater, nothing or potentially mountain
             if (c== 'L'){ // if cliff or crater
-
+                
                 send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos ));
-             
+                 
                move_avoid_cliff();
                currpos = update_coordinates( orientation,  dy,  dx,  currpos );
 
@@ -288,7 +292,7 @@ int main(void){
     pos currpos;
     currpos.x = 150;
     currpos.y= 150;
-
+    
     int prev_d_i= get_topd_inf();
 
     explore(prev_d_i, exp_fin, currpos);
