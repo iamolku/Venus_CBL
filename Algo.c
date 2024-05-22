@@ -119,13 +119,25 @@ void move_forwards(){}
     //should ideally end up with same orientation as before
 } */
 
-void turn_clkwise_90(){
-    //insert code to 
+int turn_clkwise_90(int orientation){
+    //insert code to move
+
+    //update and return orientation
+    switch (orientation){
+        case 0: 
+                
+        case 90:
+        case 180:
+        case 270:
+        default:
+        
+    }
+    
+    
    
 }
-update_orientation(){
-    
-}
+int turn_anticlkwise_90(){}
+
 
 void move_avoid_cliff(){
    //turn 90 deg NOT on spot
