@@ -137,7 +137,21 @@ int turn_clkwise_90(int orientation){
     }
     return orientation;  
 }
-int turn_anticlkwise_90(){}
+int turn_anticlkwise_90(){
+    switch (orientation){
+        case 0: 
+                orientation = 270;
+        case 90:
+             orientation = 0;
+        case 180:
+            orientation = 90;
+        case 270:
+            orientation = 180;
+        default:
+            orientation = orientation;
+    }
+    return orientation;  
+}
 
 
 void move_avoid_cliff(){
