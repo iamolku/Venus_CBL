@@ -128,19 +128,19 @@ update_orientation(){
 }
 
 void move_avoid_cliff(){
-   
+   //turn 90 deg NOT on spot
 
     //turn 90 deg clock wise
 }
 void move_avoid_rock(){
-    
+    //turn 90 deg NOT on spot
    
    
 
     //turn 90 deg clock wise
 }
 void move_avoid_mountain(){
-    
+    //turn on spot 90 deg
   
 }
 
@@ -170,12 +170,10 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
 
         int delta_topd_i = delta_topd_inf(prev_d_i, curr_topd_i); //calc delta distance infrared
         
-
-
         if(delta_topd_i==0){ //if cliff, crater, nothing or potentially mountain
             if (c== 'L'){ // if cliff or crater
 
-                send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos );
+                send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos ));
              
                move_avoid_cliff();
                currpos = update_coordinates( orientation,  dy,  dx,  currpos );
@@ -186,7 +184,6 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
                 move_avoid_mountain();
                currpos = update_coordinates( orientation,  dy,  dx,  currpos );
 
-               
             } 
             else{ //nothing
                 move_forwards();
@@ -207,17 +204,11 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
            currpos = update_coordinates( orientation,  dy,  dx,  currpos );
 
         }
-        
-
+    
     }
     else{
         return explore()
     }
-
-    
-
-
-
 
  }
 
@@ -240,10 +231,6 @@ int main(void){
     int prev_d_i= get_topd_inf();
 
     explore(prev_d_i, exp_fin, currpos);
-
-
-
-
 
 
 }
