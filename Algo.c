@@ -8,7 +8,7 @@
 
 typedef struct
 {
-    char grid[100][100];
+    char grid[300][300];
     
 } matrix_t;
 
