@@ -125,16 +125,17 @@ int turn_clkwise_90(int orientation){
     //update and return orientation
     switch (orientation){
         case 0: 
-                
+                orientation = 90;
         case 90:
+             orientation = 180;
         case 180:
+            orientation = 270;
         case 270:
+            orientation = 0;
         default:
-        
+            orientation = orientation;
     }
-    
-    
-   
+    return orientation;  
 }
 int turn_anticlkwise_90(){}
 
@@ -211,7 +212,7 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
 
         }
         else if(delta_topd_i==6){
-           send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  );
+           send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  )//NEED TO DEDUCT 150 from currpos;
            move_around_rock();
            currpos = update_coordinates( orientation,  dy,  dx,  currpos );
 
@@ -232,13 +233,13 @@ int main(void){
     for(int i=0; i<60; i++){
         for(int j=0; j<60; j++){
             
-            matrix.grid[i][j]= '.';
+            matrix.grid[i][j]= NULL;
         }
         
     }
     pos currpos;
-    currpos.x =0;
-    currpos.y= 0;
+    currpos.x = 150;
+    currpos.y= 150;
 
     int prev_d_i= get_topd_inf();
 
