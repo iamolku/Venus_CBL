@@ -121,16 +121,22 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
     switch(color){
         case 0 ... l:
             c= 'L';
+        break;
         case r1 ... r2:
             c= 'R';
+        break;
         case g1 ... g2:
             c= 'G';
+        break;
         case b1 ... b2:
             c= 'B';
+        break;
         case w1 ... w1:
             c= 'W';
+        break;
         default:
              c= 'E';
+        break;
     }
 
     return c;
@@ -159,14 +165,19 @@ int turn_clkwise_90(int orientation){
     switch (orientation){
         case 0: 
                 orientation = 90;
+        break;
         case 90:
              orientation = 180;
+        break;
         case 180:
             orientation = 270;
+        break;
         case 270:
             orientation = 0;
+        break;
         default:
             orientation = orientation;
+        break;
     }
     return orientation;  
 }
@@ -177,14 +188,19 @@ int turn_anticlkwise_90(){
     switch (orientation){
         case 0: 
                 orientation = 270;
+        break;
         case 90:
              orientation = 0;
+        break;
         case 180:
             orientation = 90;
+        break;
         case 270:
             orientation = 180;
+        break;
         default:
             orientation = orientation;
+        break;
     }
     return orientation;  
 }
