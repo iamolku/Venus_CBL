@@ -213,13 +213,19 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
     switch(orientation){
         case 0: 
             currpos.y = currpos.y + dy;
+        break;
         case 90: 
             currpos.x= currpos.x + dx;
-        case 180: currpos.y = currpos.y- dy;
+        break;
+        case 180: 
+            currpos.y = currpos.y - dy;
+        break;
         case 270:
-            currpos.x= currpos.x + dx;
+            currpos.x= currpos.x - dx;
+        break;
         default:
-
+            //in case of failure?
+        break;
     }
     return currpos;
 }
