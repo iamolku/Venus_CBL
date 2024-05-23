@@ -254,6 +254,7 @@ int count_unvisited_in_direction(pos currpos, matrix_t matrix, int orientation) 
                 break;
         }
         if (x < 0 || x >= 300 || y < 0 || y >= 300 || matrix.grid[x][y] != NULL) {
+            //300 set here as an example limit, to be changed once actual matrix size has been determined
             break;
         }
         count++;
