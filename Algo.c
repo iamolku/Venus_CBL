@@ -261,8 +261,8 @@ int count_unvisited_in_direction(pos currpos, matrix_t matrix, int orientation) 
     return count;
 }
 
-// Function to decide best direction based on unvisited spaces
-char best_direction_to_turn(pos currpos, matrix_t matrix, int orientation) {
+// function to decide best direction based on unvisited spaces
+char optimal_direction(pos currpos, matrix_t matrix, int orientation) {
     int right_orientation = turn_clockwise_90(orientation);
     int left_orientation = turn_anticlockwise_90(orientation);
 
@@ -275,7 +275,7 @@ char best_direction_to_turn(pos currpos, matrix_t matrix, int orientation) {
         return 'L';  // Turn left
     }
 }
-
+// can also set this to return integers if needed
 
 
 
