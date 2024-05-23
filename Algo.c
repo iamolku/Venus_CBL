@@ -139,7 +139,6 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
 
 boolean pos_to_the_left_explored(pos currpos){
     
-    
 
     
 }
@@ -224,6 +223,62 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
     }
     return currpos;
 }
+
+// code deciding whether to choose
+int turn_clockwise_90(int orientation) {
+    return (orientation + 90) % 360;
+}
+
+int turn_anticlockwise_90(int orientation) {
+    return (orientation + 270) % 360;  // equivalent to -90 in modular arithmetic
+}
+
+int count_unvisited_in_direction(pos currpos, matrix_t matrix, int orientation) {
+    int count = 0;
+    int x = currpos.x;
+    int y = currpos.y;
+
+    while (true) {
+        switch (orientation) {
+            case 0:  // North
+                y--;
+                break;
+            case 90:  // East
+                x++;
+                break;
+            case 180:  // South
+                y++;
+                break;
+            case 270:  // West
+                x--;
+                break;
+        }
+        if (x < 0 || x >= 300 || y < 0 || y >= 300 || matrix.grid[x][y] != NULL) {
+            break;
+        }
+        count++;
+    }
+    return count;
+}
+
+// Function to decide best direction based on unvisited spaces
+char best_direction_to_turn(pos currpos, matrix_t matrix, int orientation) {
+    int right_orientation = turn_clockwise_90(orientation);
+    int left_orientation = turn_anticlockwise_90(orientation);
+
+    int right_unvisited = count_unvisited_in_direction(currpos, matrix, right_orientation);
+    int left_unvisited = count_unvisited_in_direction(currpos, matrix, left_orientation);
+
+    if (right_unvisited > left_unvisited) {
+        return 'R';  // Turn right
+    } else {
+        return 'L';  // Turn left
+    }
+}
+
+
+
+
 
 
  //recursive function explore
