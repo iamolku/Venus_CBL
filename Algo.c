@@ -143,15 +143,13 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
     
  } // color sensed by color sensor
 
-boolean pos_to_the_left_explored(pos currpos){
-    
 
-    
-}
-boolean pos_to_the_right_explored(pos currpos){}
-//void space_unexplored(pos position){} // returns whether space to the tright or the left of the robot is un
 void move_forwards(){
     //move forwards 3 cm
+     stepper_set_speed(25000,25000);//3072 is minimum
+  
+    
+    stepper_steps(-162, -162); 
     
 }
 /*void move_around_object(int angle_wrt_origin){
