@@ -104,32 +104,31 @@ char behind(pos currpos,  matrix_t matrix){
  int get_topd_inf(){ //distance sensed by infrared sensor in mm
     int d;
     printf("input infrared distance ");
-    scanf(" %d \n", &d);
+    scanf("%d", &d);
     return d;
     
  } 
 
  int delta_topd_inf(int prev_d_inf, int curr_topd_inf){ //returns value in CM
     //if prev_d_inf = +-0.01m curr_topd_inf -> return 0;
-    if(prev_d_inf - curr_topd_inf < 1 || prev_d_inf - curr_topd_inf > -1   ){
-       return 0;
+    int final = 0;
+    if(prev_d_inf - curr_topd_inf < 2   ){
+       final = 0;
     }
     else if((prev_d_inf - curr_topd_inf) < 4 ){
        return 3;
     }
-    else if((prev_d_inf - curr_topd_inf) < 6){
+    else if((prev_d_inf - curr_topd_inf) < 7){
        return 6;
     }
-    else {
-      return 0;
-    }
+    return final;
        
  }
 
  int get_d_ultra(){
     int d;
     printf("input ultrasound distance ");
-    scanf(" %d \n", &d);
+    scanf("%d", &d);
     return d;
     
  } //distance sensed by ultrasound sensor
@@ -138,7 +137,7 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
 
     char c;
    printf("input color ");
-    scanf(" %c \n", &c);
+    scanf(" %c", &c);
     return c;
     
  } // color sensed by color sensor
@@ -284,11 +283,12 @@ int move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
   
 }
 
-void send(char *s, char c, int size, pos currpos){
+void send(char *s, char c, int size, pos currpos, int orientation){
   printf("%s \n", s);
   printf("%c \n", c);
   printf("%d \n", size);
   printf("%d, %d \n", currpos.x, currpos.y);
+  printf("%d \n", orientation);
 }
 
 
@@ -296,11 +296,17 @@ void send(char *s, char c, int size, pos currpos){
  //recursive function explore
 int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos currpos, pos prevpos ){
     if(exp_fin!=1){
+      char c;
 
-        char c= get_c();
-        double curr_topd_i = get_topd_inf();
 
+        int curr_topd_i = get_topd_inf();
+        printf("%d", prev_d_i);
+        c= get_c();
+        //c= get_c();
+        //c='G';
+        printf("%c", c);
         int delta_topd_i = delta_topd_inf(prev_d_i, curr_topd_i); //calc delta distance infrared
+        printf("delta d %d", delta_topd_i);
         int d_ultra= get_d_ultra();
         int dy= currpos.y-prevpos.y;
         int dx= currpos.x - prevpos.x;
@@ -308,36 +314,41 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
         if(delta_topd_i==0){ //if cliff, crater, nothing or potentially mountain
             if (c== 'L'){ // if cliff or crater
                 
-                send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos ));
+                
                  matrix =  setToCliff( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
                orientation = move_avoid_cliff( currpos,  matrix,  orientation);
+               send("cliff", c, curr_topd_i, update_coordinates( orientation,  dy,  dx,  currpos ), orientation);
                 
 
             } 
             else if(d_ultra<6){  //mountain
-                send("mountain", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
+                
                  matrix =  setToMountain( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
                 orientation =move_avoid_mountain( currpos,  matrix,  orientation);
+                send("mountain", c, 30, update_coordinates( orientation,  dy,  dx,  currpos), orientation );
                
             } 
             else{ //nothing
-                send("nothing", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
+                
                  matrix =  setToVisited( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
                 move_forwards( currpos,  matrix,  orientation);
+                send("nothing", c, 30, update_coordinates( orientation,  dy,  dx,  currpos), orientation );
               
             }
         }
         else if(delta_topd_i == 3){
             
-            send("Rock", c, 3, update_coordinates( orientation,  dy,  dx,  currpos)  );
+           
             matrix =  setToRock( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
             orientation =move_avoid_rock( currpos,  matrix,  orientation);
+             send("Rock", c, 3, update_coordinates( orientation,  dy,  dx,  currpos), orientation );
            
         }
         else if(delta_topd_i==6){
-           send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  );//NEED TO DEDUCT 150 from currpos;
+           
             matrix =  setToRock( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
            orientation =move_avoid_rock( currpos,  matrix,  orientation);
+           send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos) , orientation );//NEED TO DEDUCT 150 from currpos;
            
 
         }
