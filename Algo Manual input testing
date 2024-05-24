@@ -33,6 +33,17 @@ matrix_t setToVisited(pos currpos, matrix_t matrix){
     return matrix;
 }
 
+matrix_t setToRock(pos currpos, matrix_t matrix){
+    matrix.grid[currpos.x][currpos.y] = 'R';
+    //(" %c", matrix.grid[currpos.x][currpos.y]);
+    return matrix;
+}
+//SET TO MOUNTAIN
+matrix_t setToMountain(pos currpos, matrix_t matrix){
+        matrix.grid[currpos.x][currpos.y] = 'M';
+    //(" %c", matrix.grid[currpos.x][currpos.y]);
+    return matrix;
+}
 
 //detecting around the currpos
 char left(pos currpos,  matrix_t matrix ){
