@@ -75,8 +75,8 @@ char behind(pos currpos,  matrix_t matrix){
 //sensor related functions
  int get_topd_inf(){ //distance sensed by infrared sensor in mm
     int d;
-    uint_8 dist = uart_recv(UART1); //to change
-    d= (int)dist * 10;
+
+    scanf("input infrared distance %d", &d)
     return d;
     
  } 
