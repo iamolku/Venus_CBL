@@ -144,62 +144,6 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
  } // color sensed by color sensor
 
 
-/*void move_around_object(int angle_wrt_origin){
-    //should ideally end up with same orientation as before
-} */
-
-/*int turn_right(int orientation){
-    //insert code to move
-
-    //update and return orientation
-    if(orientation)
-    switch (orientation){
-        case 0: 
-                orientation = 90;
-        break;
-        case 90:
-             orientation = 180;
-        break;
-        case 180:
-            orientation = 270;
-        break;
-        case 270:
-            orientation = 0;
-        break;
-        default:
-            orientation = orientation;
-        break;
-    }
-    return orientation;  
-}
-int turn_left(){
-    //insert code to move
-
-    //update and return orientation
-    switch (orientation){
-        case 0: 
-                orientation = 270;
-        break;
-        case 90:
-             orientation = 0;
-        break;
-        case 180:
-            orientation = 90;
-        break;
-        case 270:
-            orientation = 180;
-        break;
-        default:
-            orientation = orientation;
-        break;
-    }
-    return orientation;  
-}
-*/
-
-
-
-
 pos update_coordinates(int orientation, int dy, int dx, pos currpos){
     switch(orientation){
         case 0: 
@@ -326,7 +270,7 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
 
 
  //recursive function explore
- int explore(int prev_d_i, int exp_fin, pos currpos ){
+ int explore(int prev_d_i, int exp_fin, pos currpos, pos prevpos ){
     if(exp_fin!=1){
 
         char c= get_c;
@@ -334,47 +278,48 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
 
         int delta_topd_i = delta_topd_inf(prev_d_i, curr_topd_i); //calc delta distance infrared
         
+        int dy= currpos.y-prevpos.y;
+        int dx= currpos.x - prevpos.x;
+        
         if(delta_topd_i==0){ //if cliff, crater, nothing or potentially mountain
             if (c== 'L'){ // if cliff or crater
                 
                 send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos ));
                  
                move_avoid_cliff();
-               currpos = update_coordinates( orientation,  dy,  dx,  currpos );
                 
 
             } 
             else if(get_d_ultra<6){  //mountain
                 send("mountain", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
                 move_avoid_mountain();
-               currpos = update_coordinates( orientation,  dy,  dx,  currpos );
-
+               
             } 
             else{ //nothing
                 move_forwards();
-               currpos = update_coordinates( orientation,  dy,  dx,  currpos );
-
+              
             }
         }
         else if(delta_topd_i == 3){
             
             send("Rock", c, 3, update_coordinates( orientation,  dy,  dx,  currpos)  );
             move_around_rock();
-           currpos = update_coordinates( orientation,  dy,  dx,  currpos );
-
+           
         }
         else if(delta_topd_i==6){
            send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  )//NEED TO DEDUCT 150 from currpos;
            move_around_rock();
-           currpos = update_coordinates( orientation,  dy,  dx,  currpos );
+           
 
         }
+        prevpos= currpos;
+        currpos = update_coordinates( orientation,  dy,  dx,  currpos );
         prev_d_i= curr_topd_i;
-        return explore(orientation,  exp_fin, currpos)
+        return explore(orientation, prev_d_i, exp_fin, currpos, prevpos);
     
     }
     else{
-        
+        return 1;
     }
 
  }
