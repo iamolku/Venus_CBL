@@ -32,6 +32,8 @@ matrix_t setToVisited(pos currpos, matrix_t matrix){
     //(" %c", matrix.grid[currpos.x][currpos.y]);
     return matrix;
 }
+//SET TO ROCK
+//SET TO MOUNTAIN
 
 
 //detecting around the currpos
@@ -285,13 +287,14 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
             if (c== 'L'){ // if cliff or crater
                 
                 send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos ));
-                 
+                 matrix_t =  setToCliff(pos currpos, matrix_t matrix);
                move_avoid_cliff();
                 
 
             } 
             else if(get_d_ultra<6){  //mountain
                 send("mountain", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
+                 matrix_t =  setToMountain(pos currpos, matrix_t matrix);
                 move_avoid_mountain();
                
             } 
@@ -303,11 +306,13 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
         else if(delta_topd_i == 3){
             
             send("Rock", c, 3, update_coordinates( orientation,  dy,  dx,  currpos)  );
+            matrix_t =  setToRock(pos currpos, matrix_t matrix);
             move_around_rock();
            
         }
         else if(delta_topd_i==6){
            send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  )//NEED TO DEDUCT 150 from currpos;
+            matrix_t =  setToRock(pos currpos, matrix_t matrix);
            move_around_rock();
            
 
