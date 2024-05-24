@@ -299,6 +299,7 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
                
             } 
             else{ //nothing
+                 matrix_t =  setToVisited(pos currpos, matrix_t matrix);
                 move_forwards();
               
             }
