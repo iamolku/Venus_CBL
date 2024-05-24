@@ -311,7 +311,7 @@ void move_avoid_cliff(pos currpos, matrix_t matrix, int orientation){
    //turn 90 deg on spot
     stepper_set_speed(25000,25000);//3072 is minimum
      char direction= optimal_direction(currpos,  matrix,  orientation)
-    if( direction == L){
+    if( direction == 'L'){
          stepper_steps(630, -630); 
     }
     else{
