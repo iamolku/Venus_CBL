@@ -341,6 +341,7 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
                  
                move_avoid_cliff();
                currpos = update_coordinates( orientation,  dy,  dx,  currpos );
+                
 
             } 
             else if(get_d_ultra<6){  //mountain
@@ -368,10 +369,12 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
            currpos = update_coordinates( orientation,  dy,  dx,  currpos );
 
         }
+        prev_d_i= curr_topd_i;
+        return explore(orientation,  exp_fin, currpos)
     
     }
     else{
-        return explore()
+        
     }
 
  }
