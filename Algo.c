@@ -147,8 +147,6 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
 void move_forwards(){
     //move forwards 3 cm
      stepper_set_speed(25000,25000);//3072 is minimum
-  
-    
     stepper_steps(-162, -162); 
     
 }
@@ -156,10 +154,11 @@ void move_forwards(){
     //should ideally end up with same orientation as before
 } */
 
-int turn_clkwise_90(int orientation){
+/*int turn_right(int orientation){
     //insert code to move
 
     //update and return orientation
+    if(orientation)
     switch (orientation){
         case 0: 
                 orientation = 90;
@@ -179,7 +178,7 @@ int turn_clkwise_90(int orientation){
     }
     return orientation;  
 }
-int turn_anticlkwise_90(){
+int turn_left(){
     //insert code to move
 
     //update and return orientation
@@ -202,14 +201,17 @@ int turn_anticlkwise_90(){
     }
     return orientation;  
 }
-
+*/
 
 void move_avoid_cliff(){
    //turn 90 deg NOT on spot
-    
+    stepper_set_speed(25000,25000);//3072 is minimum
+      
+    stepper_steps(-630, 630); 
     //turn 90 deg clock wise
 }
 void move_avoid_rock(){
+    if
     //turn 90 deg NOT on spot
    
    
