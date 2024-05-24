@@ -76,7 +76,7 @@ char behind(pos currpos,  matrix_t matrix){
  int get_topd_inf(){ //distance sensed by infrared sensor in mm
     int d;
 
-    scanf("input infrared distance %d", &d)
+    scanf("input infrared distance %d", &d);
     return d;
     
  } 
@@ -97,8 +97,8 @@ char behind(pos currpos,  matrix_t matrix){
 
  int get_d_ultra(){
     int d;
-    uint_8 dist = uart_recv(UART1); //to change
-    d= (int)dist * 10;
+    
+    scanf("input ultrasound distance %d", &d);
     return d;
     
  } //distance sensed by ultrasound sensor
@@ -106,39 +106,8 @@ char behind(pos currpos,  matrix_t matrix){
 char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
 
     char c;
-    uint_8 color = uart_recv(UART1); //to change
-    
-    int l;
-    int r1;
-    int r2;
-    int g1;
-    int g2;
-    int b1;
-    int b2;
-    int w1; 
-    int w2;
    
-    switch(color){
-        case 0 ... l:
-            c= 'L';
-        break;
-        case r1 ... r2:
-            c= 'R';
-        break;
-        case g1 ... g2:
-            c= 'G';
-        break;
-        case b1 ... b2:
-            c= 'B';
-        break;
-        case w1 ... w1:
-            c= 'W';
-        break;
-        default:
-             c= 'E';
-        break;
-    }
-
+   scanf("input color %c", &c);
     return c;
     
  } // color sensed by color sensor
