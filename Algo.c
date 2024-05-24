@@ -188,8 +188,9 @@ int turn_anticlockwise_90(int orientation) {
     return (orientation + 270) % 360;  // equivalent to -90 in modular arithmetic
 }
 
-int count_unvisited_in_direction(pos currpos, matrix_t matrix, int orientation) {
+int count_unvisited_beyond_visited(pos currpos, matrix_t matrix, int orientation) {
     int count = 0;
+    bool visited_encountered = false;
     int x = currpos.x;
     int y = currpos.y;
 
@@ -208,30 +209,96 @@ int count_unvisited_in_direction(pos currpos, matrix_t matrix, int orientation) 
                 x--;
                 break;
         }
-        if (x < 0 || x >= 300 || y < 0 || y >= 300 || matrix.grid[x][y] != NULL) {
-            //300 set here as an example limit, to be changed once actual matrix size has been determined
+
+        // Stop if out of bounds
+        if (x < 0 || x >= 300 || y < 0 || y >= 300) break;
+
+        // Get the current cell value
+        char cell = matrix.grid[x][y];
+
+        // Stop counting if an obstacle is encountered
+        if (cell != NULL && cell != '+') {
             break;
         }
-        count++;
+
+        // Count unvisited cells only after the first visited space has been encountered
+        if (cell == NULL && visited_encountered) {
+            count++;
+        } else if (cell == '+') {
+            visited_encountered = true; // Mark that visited space is encountered, continue counting
+        }
     }
     return count;
 }
 
-// function to decide best direction based on unvisited spaces
-char optimal_direction(pos currpos, matrix_t matrix, int orientation) {
+int count_unvisited_straight(pos currpos, matrix_t matrix, int orientation){
+    int count = 0;
+    bool visited_encountered = false;
+    int x = currpos.x;
+    int y = currpos.y;
+
+    while (true) {
+        switch (orientation) {
+            case 0:  // North
+                y--;
+                break;
+            case 90:  // East
+                x++;
+                break;
+            case 180:  // South
+                y++;
+                break;
+            case 270:  // West
+                x--;
+                break;
+        }
+
+        // Stop if out of bounds
+        if (x < 0 || x >= 300 || y < 0 || y >= 300) break;
+
+        // Get the current cell value
+        char cell = matrix.grid[x][y];
+
+        if (cell == NULL) {
+            if (obstacle_encountered) {  // Start counting after an obstacle was encountered
+                count++;
+            }
+        } else if (cell == '+' || cell == 'R' || cell == 'M' || cell == '#') {
+            if (!obstacle_encountered && cell != '+') {
+                // Mark the first encounter with a significant obstacle
+                obstacle_encountered = true;
+            } else if (obstacle_encountered) {
+                // If already past an obstacle, stop counting at next significant obstacle
+                break;
+            }
+        }
+    }
+    return count;
+}
+
+char optimal_direction (pos currpos, matrix_t matrix, int orientation) {
     int right_orientation = turn_clockwise_90(orientation);
     int left_orientation = turn_anticlockwise_90(orientation);
 
-    int right_unvisited = count_unvisited_in_direction(currpos, matrix, right_orientation);
-    int left_unvisited = count_unvisited_in_direction(currpos, matrix, left_orientation);
+    int right_unvisited = count_unvisited_beyond_visited(currpos, matrix, right_orientation);
+    int left_unvisited = count_unvisited_beyond_visited(currpos, matrix, left_orientation);
+    int straight_unvisited = count_unvisited_straight(currpos, matrix, orientation);
 
-    if (right_unvisited > left_unvisited) {
+
+    // Determine the best direction based on the count of unvisited spaces
+
+    if (right_unvisited >= left_unvisited && right_unvisited >= straight_unvisited) {
         return 'R';  // Turn right
-    } else {
+    } 
+
+    else if (straight_unvisited > right_unvisited && straight_unvisited > left_unvisited){
+        return 'S'; //Navigate around the object and move straight
+    }
+    else {
         return 'L';  // Turn left
     }
 }
-// can also set this to return integers if needed
+
 
 void move_forwards(){
     //move forwards 3 cm
