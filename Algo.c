@@ -4,6 +4,7 @@
 #define ROCK 'R'
 #define MOUNTAIN 'M'
 #define VISITED '+'
+#define BOUNDARY '~'
 
 
 typedef struct
@@ -32,12 +33,14 @@ matrix_t setToVisited(pos currpos, matrix_t matrix){
     //(" %c", matrix.grid[currpos.x][currpos.y]);
     return matrix;
 }
+
 //SET TO ROCK
 matrix_t setToRock(pos currpos, matrix_t matrix){
     matrix.grid[currpos.x][currpos.y] = 'R';
     //(" %c", matrix.grid[currpos.x][currpos.y]);
     return matrix;
 }
+
 //SET TO MOUNTAIN
 matrix_t setToMountain(pos currpos, matrix_t matrix){
         matrix.grid[currpos.x][currpos.y] = 'M';
@@ -348,6 +351,78 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
   
 }
 
+//Moving around rock samples (Known, fixed square size)
+
+// Pseudocode Function to navigate around a block
+void navigate_around_block(int block_size) {
+    int x = 0;  // Distance moved forward to bypass the block
+    int y = 0;  // Initial forward movement to get past the block
+
+    // 1. Detect the size of the block (3x3cm or 6x6cm)
+    if (block_size == 3) {
+        y = calculate_steps_for_distance(3);  // Function to calculate steps for 3 cm
+    } else if (block_size == 6) {
+        y = calculate_steps_for_distance(6);  // Function to calculate steps for 6 cm
+    }
+
+    // 2. Turn 90 degrees to the right
+    stepper_steps(-630, 630);
+
+    // 3. Move a certain distance forward to avoid the block, store into a distance variable
+    stepper_steps(-y, -y);
+    x += y;
+
+    // 4. Turn 90 degrees to the left and check for obstacles
+    stepper_steps(630, -630);
+
+    // 5. Move forward and keep adjusting if there are obstacles
+    while (check_for_obstacle()) {  // Function to check if there is an obstacle in the path
+        // If an obstacle is detected, turn right, move forward a bit, and check again
+        stepper_steps(-630, 630);
+        stepper_steps(-y, -y);
+        x += y;
+
+        // Try turning left again to resume the intended path
+        stepper_steps(630, -630);
+    }
+
+    // 6. Move the full length of the block and a bit more to ensure it is bypassed
+    stepper_steps(-x, -x);
+
+    // 7. Turn 90 degrees left to face the original direction alongside the block
+    stepper_steps(630, -630);
+
+    // 8. Check if the block is still beside the robot; if so, it has gone around it successfully
+    if (detect_block_beside()) {
+        // 9. Turn 180 degrees to face away from the block (back to the original direction)
+        stepper_steps(1260, -1260);
+    }
+}
+
+// Helper function to check for an obstacle
+bool check_for_obstacle() {
+    // Implementation depends on how you detect obstacles, e.g., using a sensor
+    return sensor_detects_obstacle();
+}
+
+// Helper function to detect a block beside the robot
+bool detect_block_beside() {
+    // This could use a side-facing sensor to detect the block
+    return side_sensor_detects_block();
+}
+
+// Function to convert distance in cm to stepper motor steps
+int calculate_steps_for_distance(int cm) {
+    // Assuming a certain step count equates to 1 cm of movement, adjust accordingly
+    return STEPS_PER_CM * cm;
+}
+
+
+
+//Moving around cliffs and mountains (abstract shape, kms)
+
+
+
 
  //recursive function explore
  int explore(int orientation, int prev_d_i, int exp_fin, pos currpos, pos prevpos ){
@@ -434,4 +509,5 @@ int main(void){
     explore(prev_d_i, exp_fin, currpos);
     return 1;
 
+    
 }
