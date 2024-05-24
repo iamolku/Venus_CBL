@@ -270,7 +270,7 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
 
 
  //recursive function explore
- int explore(int prev_d_i, int exp_fin, pos currpos, pos prevpos ){
+ int explore(int orientation, int prev_d_i, int exp_fin, pos currpos, pos prevpos ){
     if(exp_fin!=1){
 
         char c= get_c;
@@ -339,10 +339,15 @@ int main(void){
     pos currpos;
     currpos.x = 150;
     currpos.y= 150;
+    pos prevpos;
+    prevpos.x = 150;
+    prevpos.y= 150;
+
+    int orientation= 0;
     
     int prev_d_i= get_topd_inf();
-
+    int exp_fin= 0;
     explore(prev_d_i, exp_fin, currpos);
-
+    return 1;
 
 }
