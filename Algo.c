@@ -144,12 +144,6 @@ char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
  } // color sensed by color sensor
 
 
-void move_forwards(){
-    //move forwards 3 cm
-     stepper_set_speed(25000,25000);//3072 is minimum
-    stepper_steps(-162, -162); 
-    
-}
 /*void move_around_object(int angle_wrt_origin){
     //should ideally end up with same orientation as before
 } */
@@ -203,46 +197,7 @@ int turn_left(){
 }
 */
 
-void move_avoid_cliff(pos currpos, matrix_t matrix, int orientation){
-   //turn 90 deg on spot
-    stepper_set_speed(25000,25000);//3072 is minimum
-     char direction= optimal_direction(currpos,  matrix,  orientation)
-    if( direction == L){
-         stepper_steps(630, -630); 
-    }
-    else{
-        stepper_steps(-630, 630); 
-    }
-    move_forwards();
-    //turn 90 deg clock wise
-}
-void move_avoid_rock(pos currpos, matrix_t matrix, int orientation){
-    stepper_set_speed(25000,25000);
-    char direction= optimal_direction(currpos,  matrix,  orientation)
-    if( direction == L){
-         stepper_steps(630, -630); 
-    }
-    else{
-        stepper_steps(-630, 630); 
-    }
-    move_forwards();
-    
 
-}
-void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
-    stepper_set_speed(25000,25000);
-    //turn on spot 90 deg
-    char direction= optimal_direction(currpos,  matrix,  orientation)
-    if( direction == L){
-         stepper_steps(630, -630); 
-    }
-    else{
-        stepper_steps(-630, 630); 
-    }
-    move_forwards();
-    
-  
-}
 
 
 pos update_coordinates(int orientation, int dy, int dx, pos currpos){
@@ -260,6 +215,7 @@ pos update_coordinates(int orientation, int dy, int dx, pos currpos){
             currpos.x= currpos.x - dx;
         break;
         default:
+            
             //in case of failure?
         break;
     }
@@ -320,8 +276,53 @@ char optimal_direction(pos currpos, matrix_t matrix, int orientation) {
 }
 // can also set this to return integers if needed
 
+void move_forwards(){
+    //move forwards 3 cm
+     stepper_set_speed(25000,25000);//3072 is minimum
+    stepper_steps(-162, -162); 
+    
+}
 
+void move_avoid_cliff(pos currpos, matrix_t matrix, int orientation){
+   //turn 90 deg on spot
+    stepper_set_speed(25000,25000);//3072 is minimum
+     char direction= optimal_direction(currpos,  matrix,  orientation)
+    if( direction == L){
+         stepper_steps(630, -630); 
+    }
+    else{
+        stepper_steps(-630, 630); 
+    }
+    move_forwards();
+    //turn 90 deg clock wise
+}
+void move_avoid_rock(pos currpos, matrix_t matrix, int orientation){
+    stepper_set_speed(25000,25000);
+    char direction= optimal_direction(currpos,  matrix,  orientation)
+    if( direction == L){
+         stepper_steps(630, -630); 
+    }
+    else{
+        stepper_steps(-630, 630); 
+    }
+    move_forwards();
+    
 
+}
+void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
+    stepper_set_speed(25000,25000);
+    //turn on spot 90 deg
+    char direction= optimal_direction(currpos,  matrix,  orientation)
+    if( direction == L){
+         stepper_steps(630, -630); 
+    }
+    else{
+        stepper_steps(-630, 630); 
+    }
+    move_forwards();
+    
+  
+}
 
 
  //recursive function explore
