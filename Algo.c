@@ -204,22 +204,35 @@ int turn_left(){
 */
 
 void move_avoid_cliff(){
-   //turn 90 deg NOT on spot
+   //turn 90 deg on spot
     stepper_set_speed(25000,25000);//3072 is minimum
       
     stepper_steps(-630, 630); 
+    move_forwards();
     //turn 90 deg clock wise
 }
-void move_avoid_rock(){
-    if
-    //turn 90 deg NOT on spot
-   
-   
+void move_avoid_rock(pos currpos, matrix_t matrix, int orientation){
+    char direction= optimal_direction(currpos,  matrix,  orientation)
+    if( direction == L){
+         stepper_steps(630, -630); 
+    }
+    else{
+        stepper_steps(-630, 630); 
+    }
+    move_forwards();
+    
 
-    //turn 90 deg clock wise
 }
 void move_avoid_mountain(){
     //turn on spot 90 deg
+    char direction= optimal_direction(currpos,  matrix,  orientation)
+    if( direction == L){
+         stepper_steps(630, -630); 
+    }
+    else{
+        stepper_steps(-630, 630); 
+    }
+    move_forwards();
     
   
 }
