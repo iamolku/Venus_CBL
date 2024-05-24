@@ -1,5 +1,21 @@
+
+#include <arm_shared_memory_system.h>
+#include <json-c/json.h>
+#include <json-c/json_object.h>
+#include <libpynq.h>
+#include <platform.h>
+#include <stdint.h>
+#include <stepper.h>
+
+void uart_read_array(const int uart, uint8_t *buf, uint8_t l) {
+  for (uint8_t x = 0; x < l; x++) {
+    buf[x] = uart_recv(uart);
+  }
+}
+
+
 #define CLIFF '#'
-#define UNVISITED NULL 
+#define UNVISITED N
 #define VISITED '+'
 #define ROCK 'R'
 #define MOUNTAIN 'M'
@@ -45,40 +61,41 @@ matrix_t setToMountain(pos currpos, matrix_t matrix){
     return matrix;
 }
 
+
 //detecting around the currpos
 char left(pos currpos,  matrix_t matrix ){
-    if(matrix.grid[currpos.x -1][currpos.y] != NULL){
+    //if(matrix.grid[currpos.x -1][currpos.y] != NU){
         return matrix.grid[currpos.x -1][currpos.y];
-    }
-    else{
-        return 'N';
-    }
+    //}
+    //else{
+    //    return 'N';
+    //}
            
 }
 char right(pos currpos,  matrix_t matrix ){
-    if(matrix.grid[currpos.x +1][currpos.y]!= NULL){
+    //if(matrix.grid[currpos.x +1][currpos.y]!= NULL){
         return matrix.grid[currpos.x +1][currpos.y];
-    } else{
+    /*} else{
         return 'N';
-    }
+    }*/
 }
 
 char up(pos currpos,  matrix_t matrix){
-    if(matrix.grid[currpos.x][currpos.y -1]!=NULL){
+    //if(matrix.grid[currpos.x][currpos.y -1]!=NULL){
          return matrix.grid[currpos.x][currpos.y -1];
-    }
+    /*}
     else{
         return 'N';
-    }
+    }*/
    
 }
 char behind(pos currpos,  matrix_t matrix){
-    if(matrix.grid[currpos.x][currpos.y +1] !=NULL){
+    //if(matrix.grid[currpos.x][currpos.y +1] !=NULL){
         return matrix.grid[currpos.x][currpos.y +1];
-    }
+    /*}
     else{
         return 'N';
-    }
+    }*/
     
 }
 
@@ -86,8 +103,8 @@ char behind(pos currpos,  matrix_t matrix){
 //sensor related functions
  int get_topd_inf(){ //distance sensed by infrared sensor in mm
     int d;
-
-    scanf("input infrared distance %d", &d);
+    printf("input infrared distance ");
+    scanf(" %d \n", &d);
     return d;
     
  } 
@@ -103,13 +120,16 @@ char behind(pos currpos,  matrix_t matrix){
     else if((prev_d_inf - curr_topd_inf) < 6){
        return 6;
     }
+    else {
+      return 0;
+    }
        
  }
 
  int get_d_ultra(){
     int d;
-    
-    scanf("input ultrasound distance %d", &d);
+    printf("input ultrasound distance ");
+    scanf(" %d \n", &d);
     return d;
     
  } //distance sensed by ultrasound sensor
@@ -117,8 +137,8 @@ char behind(pos currpos,  matrix_t matrix){
 char get_c(){ //possible colors = R, G, B, BLACK (L), WHITE (W), error (E)
 
     char c;
-   
-   scanf("input color %c", &c);
+   printf("input color ");
+    scanf(" %c \n", &c);
     return c;
     
  } // color sensed by color sensor
@@ -175,7 +195,7 @@ int count_unvisited_in_direction(pos currpos, matrix_t matrix, int orientation) 
                 x--;
                 break;
         }
-        if (x < 0 || x >= 300 || y < 0 || y >= 300 || matrix.grid[x][y] != NULL) {
+        if (x < 0 || x >= 300 || y < 0 || y >= 300 || matrix.grid[x][y] != 'N') {
             //300 set here as an example limit, to be changed once actual matrix size has been determined
             break;
         }
@@ -207,57 +227,81 @@ void move_forwards(){
     
 }
 
-void move_avoid_cliff(pos currpos, matrix_t matrix, int orientation){
+int move_avoid_cliff(pos currpos, matrix_t matrix, int orientation){
    //turn 90 deg on spot
     stepper_set_speed(25000,25000);//3072 is minimum
-     char direction= optimal_direction(currpos,  matrix,  orientation)
-    if( direction == L){
+     char direction= optimal_direction(currpos,  matrix,  orientation);
+    
+    if( direction == 'L'){
          stepper_steps(630, -630); 
+         orientation = turn_anticlockwise_90( orientation);
     }
     else{
         stepper_steps(-630, 630); 
+        orientation = turn_clockwise_90( orientation);
     }
+    
     move_forwards();
+
+    return orientation;
     //turn 90 deg clock wise
 }
-void move_avoid_rock(pos currpos, matrix_t matrix, int orientation){
+int move_avoid_rock(pos currpos, matrix_t matrix, int orientation){
     stepper_set_speed(25000,25000);
-    char direction= optimal_direction(currpos,  matrix,  orientation)
-    if( direction == L){
+    char direction= optimal_direction(currpos,  matrix,  orientation);
+   if( direction == 'L'){
          stepper_steps(630, -630); 
+         orientation = turn_anticlockwise_90( orientation);
     }
     else{
         stepper_steps(-630, 630); 
+        orientation = turn_clockwise_90( orientation);
     }
+    
     move_forwards();
+
+    return orientation;
     
 
 }
-void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
+int move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
     stepper_set_speed(25000,25000);
     //turn on spot 90 deg
-    char direction= optimal_direction(currpos,  matrix,  orientation)
-    if( direction == L){
+    char direction= optimal_direction(currpos,  matrix,  orientation);
+    if( direction == 'L'){
          stepper_steps(630, -630); 
+         orientation = turn_anticlockwise_90( orientation);
     }
     else{
         stepper_steps(-630, 630); 
+        orientation = turn_clockwise_90( orientation);
     }
+    
     move_forwards();
+
+    return orientation;
     
   
 }
 
+void send(char *s, char c, int size, pos currpos){
+  printf("%s \n", s);
+  printf("%c \n", c);
+  printf("%d \n", size);
+  printf("%d, %d \n", currpos.x, currpos.y);
+}
+
+
 
  //recursive function explore
- int explore(int orientation, int prev_d_i, int exp_fin, pos currpos, pos prevpos ){
+int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos currpos, pos prevpos ){
     if(exp_fin!=1){
 
-        char c= get_c;
+        char c= get_c();
         double curr_topd_i = get_topd_inf();
 
         int delta_topd_i = delta_topd_inf(prev_d_i, curr_topd_i); //calc delta distance infrared
-        
+        int d_ultra= get_d_ultra();
         int dy= currpos.y-prevpos.y;
         int dx= currpos.x - prevpos.x;
         
@@ -265,41 +309,42 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
             if (c== 'L'){ // if cliff or crater
                 
                 send("cliff", c, 3, update_coordinates( orientation,  dy,  dx,  currpos ));
-                 matrix_t =  setToCliff(pos currpos, matrix_t matrix);
-               move_avoid_cliff();
+                 matrix =  setToCliff( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
+               orientation = move_avoid_cliff( currpos,  matrix,  orientation);
                 
 
             } 
-            else if(get_d_ultra<6){  //mountain
+            else if(d_ultra<6){  //mountain
                 send("mountain", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
-                 matrix_t =  setToMountain(pos currpos, matrix_t matrix);
-                move_avoid_mountain();
+                 matrix =  setToMountain( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
+                orientation =move_avoid_mountain( currpos,  matrix,  orientation);
                
             } 
             else{ //nothing
-                 matrix_t =  setToVisited(pos currpos, matrix_t matrix);
-                move_forwards();
+                send("nothing", c, 30, update_coordinates( orientation,  dy,  dx,  currpos) );
+                 matrix =  setToVisited( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
+                move_forwards( currpos,  matrix,  orientation);
               
             }
         }
         else if(delta_topd_i == 3){
             
             send("Rock", c, 3, update_coordinates( orientation,  dy,  dx,  currpos)  );
-            matrix_t =  setToRock(pos currpos, matrix_t matrix);
-            move_around_rock();
+            matrix =  setToRock( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
+            orientation =move_avoid_rock( currpos,  matrix,  orientation);
            
         }
         else if(delta_topd_i==6){
-           send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  )//NEED TO DEDUCT 150 from currpos;
-            matrix_t =  setToRock(pos currpos, matrix_t matrix);
-           move_around_rock();
+           send("Rock", c, 6, update_coordinates( orientation,  dy,  dx,  currpos)  );//NEED TO DEDUCT 150 from currpos;
+            matrix =  setToRock( update_coordinates( orientation,  dy,  dx,  currpos),  matrix);
+           orientation =move_avoid_rock( currpos,  matrix,  orientation);
            
 
         }
         prevpos= currpos;
         currpos = update_coordinates( orientation,  dy,  dx,  currpos );
         prev_d_i= curr_topd_i;
-        return explore(orientation, prev_d_i, exp_fin, currpos, prevpos);
+        return explore(matrix, orientation, prev_d_i, exp_fin, currpos, prevpos);
     
     }
     else{
@@ -308,14 +353,33 @@ void move_avoid_mountain(pos currpos, matrix_t matrix, int orientation){
 
  }
 
+
 int main(void){
     //initialise matrix
+    pynq_init();
+  switchbox_set_pin(IO_AR0, SWB_UART0_RX);
+  switchbox_set_pin(IO_AR1, SWB_UART0_TX);
+  gpio_set_direction(IO_AR2, GPIO_DIR_INPUT);
+  gpio_set_direction(IO_AR3, GPIO_DIR_INPUT);
+  printf("AR2: %d\n", gpio_get_level(IO_AR2));
+  printf("AR3: %d\n", gpio_get_level(IO_AR3));
+
+
+  uart_init(UART0);
+
+  uart_reset_fifos(UART0);
+
+  stepper_init();
+
+  stepper_enable();
+
+
      matrix_t matrix;
 
     for(int i=0; i<60; i++){
         for(int j=0; j<60; j++){
             
-            matrix.grid[i][j]= NULL;
+            matrix.grid[i][j]= 'N';
         }
         
     }
@@ -330,7 +394,15 @@ int main(void){
     
     int prev_d_i= get_topd_inf();
     int exp_fin= 0;
-    explore(prev_d_i, exp_fin, currpos);
-    return 1;
+    explore(matrix, orientation, prev_d_i, exp_fin, currpos, prevpos);
+    while (!stepper_steps_done())
+    ;
+
+  stepper_destroy();
+
+  pynq_destroy();
+  return EXIT_SUCCESS;
+
+   
 
 }
