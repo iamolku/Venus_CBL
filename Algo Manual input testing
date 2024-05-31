@@ -1305,7 +1305,7 @@ int main(void){
 
 
 
-VOL 4 - WORKING 7x7 MATRIX - NOW GOTTA UPDATE THE MOVEMENT ALGORITHM
+VOL 4 - IN PROGRESS - UPDATING MATRIX AND FUNCTIONAL ALGO (INSHALLAH)
 
 #include <arm_shared_memory_system.h>
 #include <json-c/json.h>
@@ -1522,7 +1522,7 @@ int count_unvisited_in_direction(pos currpos, matrix_t matrix, int orientation) 
                 x--;
                 break;
         }
-        if (x < 0 || x >= 300 || y < 0 || y >= 300 || matrix.grid[x][y] != 'N') {
+        if (x < 0 || x >= SIZE || y < 0 || y >= SIZE || matrix.grid[x][y] != 'N') {
             //300 set here as an example limit, to be changed once actual matrix size has been determined
             break;
         }
@@ -1539,7 +1539,7 @@ char optimal_direction(pos currpos, matrix_t matrix, int orientation) {
     int right_unvisited = count_unvisited_in_direction(currpos, matrix, right_orientation);
     int left_unvisited = count_unvisited_in_direction(currpos, matrix, left_orientation);
 
-    if (right_unvisited > left_unvisited) {
+    if (right_unvisited > left_unvisited || matrix.grid[x][y] == 'N' || matrix.grid[x][y] == '+') {
         return 'R';  // Turn right
     } else {
         return 'L';  // Turn left
