@@ -1725,8 +1725,17 @@ int main(void){
             
             matrix.grid[i][j]= 'N';
         }
-        
     }
+
+  //THIS IS TO ADD BORDERS 
+    for (int i = 0; i < SIZE; i++) {
+        matrix.grid[0][i] = '#';         // Top row
+        matrix.grid[SIZE - 1][i] = '#';  // Bottom row
+        matrix.grid[i][0] = '#';         // Left column
+        matrix.grid[i][SIZE - 1] = '#';  // Right column
+    }
+
+    
     pos currpos;
     currpos.x = 0 ;
     currpos.y= 0;
