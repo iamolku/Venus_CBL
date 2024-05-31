@@ -1393,19 +1393,19 @@ char left(pos currpos,  matrix_t matrix, int orientation ){
     
       switch(orientation){
         case 0: 
-            return = currpos.x - 1;
+            return  currpos.x - 1;
         break;
         case 90: 
-            return = currpos.y + 1;
+            return  currpos.y + 1;
         break;
         case 180: 
-            return = currpos.x + 1;
+            return  currpos.x + 1;
         break;
         case 270:
-            return = currpos.y - 1;
+            return  currpos.y - 1;
         break;
         default:
-            return = -1;
+            return  -1;
             //in case of failure?
         break;
     }
@@ -1413,19 +1413,19 @@ char right(pos currpos,  matrix_t matrix, int orientation ){
     
       switch(orientation){
         case 0: 
-            return = currpos.x + 1;
+            return currpos.x + 1;
         break;
         case 90: 
-            return = currpos.y - 1;
+            return  currpos.y - 1;
         break;
         case 180: 
-            return = currpos.x - 1;
+            return  currpos.x - 1;
         break;
         case 270:
-            return = currpos.y + 1;
+            return  currpos.y + 1;
         break;
         default:
-            return = -1;
+            return  -1;
             //in case of failure?
         break;
     }
