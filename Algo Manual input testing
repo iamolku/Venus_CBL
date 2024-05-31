@@ -1563,9 +1563,9 @@ char optimal_direction(pos currpos, matrix_t matrix, int orientation) {
     int right_unvisited = count_unvisited_in_direction(currpos, matrix, right_orientation);
     int left_unvisited = count_unvisited_in_direction(currpos, matrix, left_orientation);
 
-    if (right_unvisited > left_unvisited || matrix.grid[x][y] == 'N' || matrix.grid[x][y] == '+') {
+    if ((right_unvisited > left_unvisited ) && ((right(currpos, matrix, orientation) == 'N') || (right(currpos, matrix, orientation) = '+') ) {
         return 'R';  // Turn right
-    } else {
+    } else if((right_unvisited < left_unvisited ) && ((left(currpos, matrix, orientation) == 'N') || (left(currpos, matrix, orientation) = '+') ){
         return 'L';  // Turn left
     }
 }
