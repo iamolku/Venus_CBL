@@ -1035,18 +1035,9 @@ int main(void){
   return EXIT_SUCCESS;
 }
 
-//VOL3 MATRIX fully functional, changes made to ordering of explore algorithm and front/left/right functions
-/*#include <libpynq.h>
+//VOL3 MATRIX fully functional, changes made to ordering of explore algorithm and front/left/right functions. 
+//Sometimes optimal direction could be more 'optimal', but it functions mostly properly, and doesnt result in any unwanted moves
 
-int main(void) {
-  pynq_init();
-
-  // your code here
-
-  pynq_destroy();
-  return EXIT_SUCCESS;
-}
-*/
 
 //#include <arm_shared_memory_system.h>
 //#include <json-c/json.h>
