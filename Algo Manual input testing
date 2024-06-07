@@ -4266,6 +4266,37 @@ pos update_coordinates(int orientation, pos currpos){
     return currpos;
 }
 
+pos front_left(int orientation, pos currpos){
+  switch(orientation){
+        case 0: 
+            currpos.y = currpos.y + 1;
+            currpos.x = currpos.x - 2;
+        break;
+        case 90: 
+            currpos.x = currpos.x + 1;
+             currpos.y = currpos.y + 2;
+        break;
+        case 180: 
+            currpos.y = currpos.y - 1;
+            currpos.x = currpos.x + 2;
+        break;
+        case 270:
+            currpos.x = currpos.x - 1;
+            currpos.y = currpos.y - 2;
+        break;
+        default:
+            currpos.x = -1;
+            currpos.y = -1;
+            //in case of failure?
+        break;
+    }
+    return currpos;
+}
+
+pos front_right(){
+
+}
+
 // code deciding whether to choose
 int turn_clockwise_90(int orientation) {
     return (orientation + 90) % 360;
@@ -4441,17 +4472,13 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
 
         //printf(" prev_d_i %d \n", prev_d_i); 
         //c= get_c();
-        //c= get_c();
-        //c='G';
+       
         printf("color %c \n", c);
 
-        // Better to use known ranges rather than delta d
         //int delta_topd_i = delta_topd_inf(prev_d_i, curr_topd_i); //calc delta distance infrared
         //printf("delta d %d", delta_topd_i);
         int d_ultra= get_d_ultra();
         
-        //if in front != N || != +, then 
-        //CHECK AT WHAT HEIGHT 
                 
         if(curr_topd_i <11 && curr_topd_i>9){ //if cliff, crater, nothing or potentially mountain
             if (c== 'L'){ // if cliff or crater
