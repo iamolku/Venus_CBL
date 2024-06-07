@@ -4352,6 +4352,44 @@ int move_forwards(pos currpos, matrix_t matrix, int orientation){
     
 }
 
+char detected_left_sensor(){
+  char c;
+
+  //turns 10deg or so to the left
+  stepper_steps(0,-66);
+
+  //moves slightly forward for the color sensor
+  stepper_steps(-80,-80);
+
+  //gets the color
+  c = get_c();
+
+  //moves backward
+  stepper_steps(80, 80);
+
+  //turns back
+  stepper_steps(0,66);
+  
+  return c;
+}
+
+char detected_right_sensor(){
+  char c;
+
+  stepper_steps(-66, 0);
+
+  stepper_steps(-80,-80);
+
+  c = get_c();
+
+  stepper_steps(80, 80);
+
+  stepper_steps(66,0);
+  
+
+  return c;
+}
+
 int move_avoid_object(pos currpos, matrix_t matrix, int orientation){
    //turn 90 deg on spot
     stepper_set_speed(25000,25000);//3072 is minimum
@@ -4389,9 +4427,20 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
       char c;
          matrix =  setToCurrpos( update_coordinates( orientation, currpos),  matrix);
 
-        int curr_topd_i = get_topd_inf();
+        int curr_topd_i = get_topd_inf(); //refers to middle sensor
+        int right_d_i = get_topd_inf();
+        int left_d_i = get_topd_inf();
+               
+        if (left_d_i != curr_topd_i && left_d_i != right_d_i) {
+            c = detected_left_sensor();
+        } else if (right_d_i != curr_topd_i && right_d_i != left_d_i) {
+            c = detected_right_sensor();
+        } else {
+            c = get_c();
+        }
+
         //printf(" prev_d_i %d \n", prev_d_i); 
-        c= get_c();
+        //c= get_c();
         //c= get_c();
         //c='G';
         printf("color %c \n", c);
