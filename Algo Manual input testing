@@ -4488,8 +4488,10 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
                
         if (left_d_i != curr_topd_i && left_d_i != right_d_i) {
             c = detected_left_sensor();
+            matrix =  setToObstacle( front_left( orientation, currpos),  matrix);
         } else if (right_d_i != curr_topd_i && right_d_i != left_d_i) {
             c = detected_right_sensor();
+             matrix =  setToObstacle( front_right( orientation, currpos),  matrix);
         } else {
             c = get_c();
         }
