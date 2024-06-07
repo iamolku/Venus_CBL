@@ -1,6 +1,6 @@
 //lil playground for me before I put these into the actual code
 
-char detected_left_sensor(pos currpos, matrix_t matrix, int orientation){
+char detected_left_sensor(){
   char c;
   //moves slightly backward
   stepper_steps(80,80);
@@ -19,7 +19,7 @@ char detected_left_sensor(pos currpos, matrix_t matrix, int orientation){
   return c;
 }
 
-char detected_right_sensor(pos currpos, matrix_t matrix, int orientation){
+char detected_right_sensor(){
   char c;
   stepper_steps(80,80);
 
