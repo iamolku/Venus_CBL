@@ -4293,7 +4293,31 @@ pos front_left(int orientation, pos currpos){
     return currpos;
 }
 
-pos front_right(){
+pos front_right(int orientation, pos currpos){
+ switch(orientation){
+        case 0: 
+            currpos.y = currpos.y + 1;
+            currpos.x = currpos.x + 2;
+        break;
+        case 90: 
+            currpos.x = currpos.x + 1;
+             currpos.y = currpos.y - 2;
+        break;
+        case 180: 
+            currpos.y = currpos.y - 1;
+            currpos.x = currpos.x - 2;
+        break;
+        case 270:
+            currpos.x = currpos.x - 1;
+            currpos.y = currpos.y + 2;
+        break;
+        default:
+            currpos.x = -1;
+            currpos.y = -1;
+            //in case of failure?
+        break;
+    }
+    return currpos;
 
 }
 
