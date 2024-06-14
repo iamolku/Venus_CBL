@@ -40,6 +40,7 @@ typedef struct{
 
  //functions
 
+
 //matrix related functions
 matrix_t setToObstacle(pos currpos, matrix_t matrix){
     matrix.grid[currpos.x][currpos.y] = '#';
@@ -719,8 +720,32 @@ int move_avoid_object(pos currpos, matrix_t matrix, int orientation){
     //turn 90 deg clock wise
 }
 
+void real_send(char sendy[] ){
+    char buf[4];
+    for (int i = 0; i < 4; i++){
+        buf[i] = sendy[i];
+    }
+    
+    //fcntl(0, F_SETFL, fcntl(0, F_GETFL) | O_NONBLOCK);
+
+
+            uint32_t length = 4;
+            uint8_t* len_bytes = (uint8_t*)&length; //Cast uint32_t to array of uint8_t
+            printf("<< Outgoing Message: Size = %d\n", length);
+            fflush(NULL);
+            for(uint32_t i = 0; i < 4; i++)
+            {
+                uart_send(UART0, len_bytes[i]); //Send payload length in bytes
+            }
+            for(uint32_t i = 0; i < length; i++)
+            {
+                uart_send(UART0, buf[i]); //Send the payload bytes
+            }    
+        }
+
+
 void send(char s, char c, int size, pos currpos, int orientation){
-    char sendy[3] = NULL;
+    char sendy[4] = {0};
     sendy[0] = s;
     sendy[1] = c;
     sendy[2] = size;
@@ -741,12 +766,15 @@ void send(char s, char c, int size, pos currpos, int orientation){
             sendy[3] = 'w';
         break;
     }
-  printf("%s \n", s);
+    real_send( sendy );
+
+  printf("%c \n", s);
   printf("%c \n", c);
   printf("%d \n", size);
   printf("%d, %d \n", currpos.x, currpos.y);
   printf("%d \n", orientation);
 }
+
 
 char direction_turned(int prev_orientation, int orientation){
     if(orientation - prev_orientation == 90){
@@ -880,7 +908,7 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
         
                 
         if(curr_topd_i <11 && curr_topd_i>9){ //if cliff, crater, nothing or potentially mountain
-            if (c== 'L'){ // if cliff or crater
+            if (c== 'l'){ // if cliff or crater
                 
                 
                 matrix =  setToObstacle( update_coordinates( orientation, currpos),  matrix);
@@ -998,8 +1026,10 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
 int main(void){
     //initialise matrix
     pynq_init();
+
   switchbox_set_pin(IO_AR0, SWB_UART0_RX);
   switchbox_set_pin(IO_AR1, SWB_UART0_TX);
+
   gpio_set_direction(IO_AR2, GPIO_DIR_INPUT);
   gpio_set_direction(IO_AR3, GPIO_DIR_INPUT);
   printf("AR2: %d\n", gpio_get_level(IO_AR2));
@@ -1012,7 +1042,7 @@ int main(void){
 
   stepper_init();
 
-  stepper_enable();*/
+  stepper_enable();
 
 
      matrix_t matrix;
@@ -1057,7 +1087,7 @@ for (int i = 0; i < SIZEY; i++) {
 
   stepper_destroy();
 
-  pynq_destroy();*/
+  pynq_destroy();
   return EXIT_SUCCESS;
 }
 //
