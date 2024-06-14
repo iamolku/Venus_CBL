@@ -719,7 +719,28 @@ int move_avoid_object(pos currpos, matrix_t matrix, int orientation){
     //turn 90 deg clock wise
 }
 
-void send(char *s, char c, int size, pos currpos, int orientation){
+void send(char s, char c, int size, pos currpos, int orientation){
+    char sendy[3] = NULL;
+    sendy[0] = s;
+    sendy[1] = c;
+    sendy[2] = size;
+    switch(orientation){
+        case 0:
+            sendy[3] = 'n';
+        break;
+
+        case 90:
+            sendy[3] = 'e';
+        break;
+
+        case 180:
+            sendy[3] = 's';
+        break;
+
+        case 270:
+            sendy[3] = 'w';
+        break;
+    }
   printf("%s \n", s);
   printf("%c \n", c);
   printf("%d \n", size);
@@ -865,7 +886,7 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
                 matrix =  setToObstacle( update_coordinates( orientation, currpos),  matrix);
             orientation = move_avoid_object( currpos,  matrix,  orientation); //only turn
             
-            send("cliff", c, curr_topd_i, update_coordinates( orientation,  currpos ), orientation);
+            send('c', c, 'z', update_coordinates( orientation,  currpos ), orientation);
             
         printf("1st MATRIX \n");
             printMatrix(matrix);
@@ -875,14 +896,14 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
                 
                 matrix =  setToObstacle( update_coordinates( orientation, currpos),  matrix);
                 orientation =move_avoid_object( currpos,  matrix,  orientation);
-                send("mountain", c, 30, update_coordinates( orientation,  currpos), orientation );
+                send('m', c, 'z', update_coordinates( orientation,  currpos), orientation );
             
             } 
             else{ //nothing
                 
                 matrix =  setToVisited( update_coordinates( orientation,  currpos),  matrix, orientation);
                 //move_forwards( currpos, matrix,  orientation);
-                send("nothing", c, 30, update_coordinates( orientation,  currpos), orientation );
+                send('n', c, 'z', update_coordinates( orientation,  currpos), orientation );
             
             }
             
@@ -892,14 +913,14 @@ int explore(matrix_t matrix, int orientation, int prev_d_i, int exp_fin, pos cur
         
             matrix =  setToObstacle( update_coordinates( orientation,  currpos),  matrix);
             orientation =move_avoid_object( currpos,  matrix,  orientation);
-            send("Rock", c, 3, update_coordinates( orientation,  currpos), orientation );
+            send('r', c, 't', update_coordinates( orientation,  currpos), orientation );
         
         }
         else if(curr_topd_i <5 && curr_topd_i >2){
         
             matrix =  setToObstacle( update_coordinates( orientation,  currpos),  matrix);
             orientation = move_avoid_object(currpos,  matrix,  orientation);
-            send("Rock", c, 6, update_coordinates( orientation,  currpos) , orientation );//NEED TO DEDUCT 150 from currpos;
+            send('r', c, 's', update_coordinates( orientation,  currpos) , orientation );//NEED TO DEDUCT 150 from currpos;
         }
 
 
