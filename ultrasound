@@ -1,0 +1,18 @@
+// Function to set the direction of Trig and Echo pins, set timer for output, and wait for input
+void setPinDirectionAndWait() {
+    // Set Trig pin as output
+    gpio_set_direction(IO_A0, GPIO_DIR_OUTPUT);
+    // Set Echo pin as input
+    gpio_set_direction(IO_A1, GPIO_DIR_INPUT);
+    // Set timer for output on Trig pin
+    gpio_set_level(IO_A0, GPIO_LEVEL_HIGH);
+    time_t start = time(NULL);
+    sleepms(50);
+    gpio_set_level(IO_A0, GPIO_LEVEL_LOW);
+    
+    // Wait until Echo pin has input
+    while (IO_A1.input() != 1);
+
+    time_t end = time(NULL);
+    uint8_t result = difftime(end, start)340 100 / 2;
+}
