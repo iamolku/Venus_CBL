@@ -109,32 +109,33 @@ def messageHandler (client, userdata, message):
 
     if init.ch1 in ["r"]:
         if init.ch2 in ["r"]:
-            if init.ch3 in ["3"]:
+            if init.ch3 in ["t"]:
                 gui.press('t')
-            elif init.ch3 in ["6"]:
+            elif init.ch3 in ["s"]:
                 gui.press('6')
         elif init.ch2 in ["g"]:
-            if init.ch3 in ["3"]:
+            if init.ch3 in ["t"]:
                 gui.press('y')
-            elif init.ch3 in ["6"]:
+            elif init.ch3 in ["s"]:
                 gui.press('7')
         elif init.ch2 in ["b"]:
-            if init.ch3 in ["3"]:
+            if init.ch3 in ["t"]:
                 gui.press('u')
-            elif init.ch3 in ["6"]:
+            elif init.ch3 in ["s"]:
                 gui.press('8')
         elif init.ch2 in ["l"]:
-            if init.ch3 in ["3"]:
+            if init.ch3 in ["t"]:
                 gui.press('i')
-            elif init.ch3 in ["6"]:
+            elif init.ch3 in ["s"]:
                 gui.press('9')
         elif init.ch2 in ["w"]:
-            if init.ch3 in ["3"]:
+            if init.ch3 in ["t"]:
                 gui.press('o')
-            elif init.ch3 in ["6"]:
+            elif init.ch3 in ["s"]:
                 gui.press('0')
         elif init.ch2 in ["e"]:
             print("error encountered :(")
+            gui.press('[')
     elif init.ch1 in ["c"]:
         gui.press('d')
     elif init.ch1 in ["m"]:

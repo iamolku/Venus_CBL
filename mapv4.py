@@ -8,8 +8,8 @@ class init:
     frm = ttk.Frame(root, padding=10)
     blank = tk.PhotoImage()
 
-    i=900              #starting position x robot1
-    j=400              #starting position y robot1
+    i=700              #starting position x robot1
+    j=355              #starting position y robot1
     x=700              #starting position x robot2
     y=300              #starting position y robot2
     direction1=0       #0 is right, 1 is left, 2 is up, 3 is down
@@ -215,6 +215,14 @@ class Map:
             if init.direction2 == 3:
                 Map.default(init.x+10, init.y+54, 30, 10, clr)
 
+    def status(robot, text):
+        if(robot == 1):
+            label = tk.Label(init.root, text=text, bg="#e6ffff")
+            label.place(x=5, y=5)
+        else:
+            label2 = tk.Label(init.root, text=text, bg="#e6ffff")
+            label2.place(x=5, y=25)
+
 class Robot1:
     def changeDirection(event):
         init.direction1 = (init.direction1 + 1)%4
@@ -276,6 +284,12 @@ class Robot1:
     def hill(event):
         Map.hill("#c19a6c", 1)
 
+    def error(event):
+        Map.status(1, "Status robot 1: error  ")
+
+    def online(event):
+        Map.status(1, "Status robot 1: online")
+
 class Robot2:
     def changeDirection(event):
         init.direction2 = (init.direction2 + 1)%4
@@ -336,12 +350,15 @@ class Robot2:
     def hill(event):
         Map.hill("#c19a6c", 2)
 
-class Main:
-    label = tk.Label(init.root, text="Status robot 1: online", bg="#e6ffff")
-    label.place(x=5, y=5)
-    label2 = tk.Label(init.root, text="Status robot 2: online", bg="#e6ffff")
-    label2.place(x=5, y=25)
+    def error(event):
+        Map.status(2, "Status robot 2: error  ")
 
+    def online(event):
+        Map.status(2, "Status robot 2: online")
+
+class Main:
+    Map.status(1, "Status robot 1: online")
+    Map.status(2, "Status robot 2: online")
     init.root.bind('<q>', Robot1.robot)
     init.root.bind('<r>', Robot1.changeDirection)
     init.root.bind('<d>', Robot1.cliff)
@@ -356,6 +373,8 @@ class Main:
     init.root.bind('<9>', Robot1.rock6ba)
     init.root.bind('<0>', Robot1.rock6w)
     init.root.bind('<p>', Robot1.hill)
+    init.root.bind('<[>', Robot1.error)
+    init.root.bind('<]>', Robot1.online)
 
     init.root.bind('<w>', Robot2.robot)
     init.root.bind('<e>', Robot2.changeDirection)
@@ -371,5 +390,7 @@ class Main:
     init.root.bind('<k>', Robot2.rock6ba)
     init.root.bind('<l>', Robot2.rock6w)
     init.root.bind('<a>', Robot2.hill)
+    init.root.bind('<.>', Robot2.error)
+    init.root.bind('<,>', Robot2.online)
 
     init.root.mainloop()
